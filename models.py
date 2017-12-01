@@ -539,7 +539,7 @@ def refiner(jobs, households, buildings, persons, year, refiner_events):
             if diff < 0:
                 agents, pool = add_pop_agents(agents,
                                               pool,
-                                              record.agents_expression,
+                                              record.agent_expression,
                                               record.location_expression,
                                               abs(diff))
             elif diff > 0:
@@ -558,7 +558,7 @@ def refiner(jobs, households, buildings, persons, year, refiner_events):
             if diff < 0:
                 agents, pool = add_agents(agents,
                                           pool,
-                                          record.agents_expression,
+                                          record.agent_expression,
                                           record.location_expression,
                                           abs(diff))
             elif diff > 0:
