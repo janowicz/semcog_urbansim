@@ -216,13 +216,13 @@ def households_transition(households, persons, annual_household_control_totals, 
         hh = hh.reset_index()
         hh['household_id_old'] = hh['household_id']
         new_hh = (hh.building_id == -1).sum()
-        hh.loc[hh.building_id == -1, 'household_id'] = range(hhidmax, hhidmax + new_hh)
+        hh.loc[hh.building_id == -1, 'household_id'] = range(int(hhidmax), int(hhidmax + new_hh))
         hhidmax += new_hh
         hhid_map = hh[['household_id_old', 'household_id']].set_index('household_id_old')
         p.index.name = 'person_id'
         p = pd.merge(p.reset_index(), hhid_map, left_on='household_id', right_index=True)
         new_p = (p.household_id_x != p.household_id_y).sum()
-        p.loc[p.household_id_x != p.household_id_y, 'person_id'] = range(pidmax, pidmax + new_p)
+        p.loc[p.household_id_x != p.household_id_y, 'person_id'] = range(int(pidmax), int(pidmax + new_p))
         pidmax += new_p
         p['household_id'] = p['household_id_y']
 
@@ -634,7 +634,7 @@ def scheduled_development_events(buildings, iter_var, events_addition):
         sched_dev['b_city_id'] = city
         b = buildings.to_frame(buildings.local_columns)
         max_id = orca.get_injectable("max_building_id")
-        all_buildings = parcel_utils.merge_buildings(b, sched_dev[b.columns], False, max_id)
+        all_buildings = parcel_utils.merge_buildings(b, sched_dev[b.columns], False)
         orca.add_injectable("max_building_id", max(all_buildings.index.max(), max_id))
         orca.add_table("buildings", all_buildings)
 
